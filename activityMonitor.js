@@ -3,8 +3,7 @@ const fs = require('fs');
 
 const execProcess = (command) => {
   const childProcessExecutionInterval = 100;
-  // const logWritingInterval = 60000;
-  const logWritingInterval = 4000;
+  const logWritingInterval = 60000;
   let isProcessRunning = false;
   let fullData = '';
 
@@ -36,11 +35,11 @@ const execProcess = (command) => {
     fs.appendFile('activityMonitor.log', fullData, (err) => {
       if (err) {
         console.error(err)
+        return;
       }
+      fullData = ''
     });
   }, logWritingInterval)
-
-
 }
 
 execProcess('powershell "Get-Process | Sort-Object CPU -Descending | Select-Object -Property Name, CPU, WorkingSet -First 1 | ForEach-Object {\'Name:\' + $_.Name + \' CPU:\' + $_.CPU + \' RAM:\' + $_.WorkingSet }"');
