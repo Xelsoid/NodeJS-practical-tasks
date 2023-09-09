@@ -1,0 +1,20 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "node js mentoring program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xelsoid/NodeJS-practical-tasks.git"
+  },
+  "author": "Artsiom Reutovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xelsoid/NodeJS-practical-tasks/issues"
+  },
+  "homepage": "https://github.com/Xelsoid/NodeJS-practical-tasks#readme"
+}
