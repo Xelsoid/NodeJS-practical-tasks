@@ -1,5 +1,17 @@
 const childProcess = require('child_process');
 const fs = require('fs');
+const os = require('os');
+
+const OS_TYPES = {
+  WINDOWS: 'Windows_NT',
+}
+
+const SHELL_COMMANDS = {
+  WINDOWS: 'powershell "Get-Process | Sort-Object CPU -Descending ' +
+    '| Select-Object -Property Name, CPU, WorkingSet -First 1 ' +
+    '| ForEach-Object {\'Name:\' + $_.Name + \' CPU:\' + $_.CPU + \' RAM:\' + $_.WorkingSet }"',
+  UNIX: 'ps -A -o %cpu,%mem,comm | sort -nr | head -n 1',
+}
 
 const execProcess = (command) => {
   const childProcessExecutionInterval = 100;
@@ -42,4 +54,6 @@ const execProcess = (command) => {
   }, logWritingInterval)
 }
 
-execProcess('powershell "Get-Process | Sort-Object CPU -Descending | Select-Object -Property Name, CPU, WorkingSet -First 1 | ForEach-Object {\'Name:\' + $_.Name + \' CPU:\' + $_.CPU + \' RAM:\' + $_.WorkingSet }"');
+const shellCommand = os.type() === OS_TYPES.WINDOWS ? SHELL_COMMANDS.WINDOWS : SHELL_COMMANDS.UNIX
+
+execProcess(shellCommand);
