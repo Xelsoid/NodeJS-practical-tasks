@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server.js",
     "customEmitter": "nodemon ./emitter.mjs",
-    "time": "nodemon ./time.mjs"
+    "time": "nodemon ./time.mjs",
+    "stream": "nodemon ./stream.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/Xelsoid/NodeJS-practical-tasks#readme",
   "dependencies": {
+    "csvtojson": "^2.0.10",
     "esm": "3.2.25"
   }
 }
