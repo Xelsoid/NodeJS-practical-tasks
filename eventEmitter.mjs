@@ -13,12 +13,7 @@ export class EventEmitter {
     this.addListener(eventName, fn);
   }
 
-  removeListener(eventName, fn, eventType = 'on') {
-    if (eventType === 'once') {
-      delete this.listeners[eventName];
-      return;
-    }
-
+  removeListener(eventName, fn) {
     const fnIndex = this.listeners[eventName].indexOf(fn);
     if (fnIndex !== -1) {
       this.listeners[eventName].length > 1
@@ -32,10 +27,11 @@ export class EventEmitter {
   }
 
   once(eventName, fn) {
-    this.addListener(eventName, () => {
+    const cb = () => {
       fn();
-      this.removeListener(eventName, fn, 'once');
-    })
+      this.removeListener(eventName, cb);
+    }
+    this.addListener(eventName, cb)
   }
 
   emit(eventName, ...args) {
