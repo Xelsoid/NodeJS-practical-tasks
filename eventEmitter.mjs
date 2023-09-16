@@ -27,8 +27,8 @@ export class EventEmitter {
   }
 
   once(eventName, fn) {
-    const cb = () => {
-      fn();
+    const cb = (...args) => {
+      fn(...args);
       this.removeListener(eventName, cb);
     }
     this.addListener(eventName, cb)
