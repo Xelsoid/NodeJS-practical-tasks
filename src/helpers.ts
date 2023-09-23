@@ -18,7 +18,7 @@ export const validateInput = ({ year, country }: { year?: number; country?: stri
     throw new Error(`Year provided not the current, received: ${year}`);
   }
 
-  return !(!country || !year);
+  return true;
 };
 
 export const shortenPublicHoliday = (holiday: PublicHoliday): PublicHolidayShort => {
