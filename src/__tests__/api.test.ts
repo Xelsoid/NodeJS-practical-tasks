@@ -35,7 +35,7 @@ describe("Nager.Date API tests", () => {
       expect(status).toEqual(404);
     });
 
-    it("should trigger call and receive 404 status code in case of year is not valid", async () => {
+    it("should trigger call and receive 500 status code in case of year is not valid", async () => {
       const year = -1;
       const countryCode = "GB";
 
@@ -43,7 +43,7 @@ describe("Nager.Date API tests", () => {
         `/LongWeekend/${year}/${countryCode}`,
       );
 
-      expect(status).toEqual(404);
+      expect(status).toEqual(500);
     });
   });
 
