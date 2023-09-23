@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   getListOfPublicHolidays,
   checkIfTodayIsPublicHoliday,
@@ -5,7 +6,6 @@ import {
 } from "./public-holidays.service";
 import holidaysMock from "./mockResponse.json";
 import holidaysFormatted from "./mockFormattedResponse.json";
-import axios from "axios";
 import { shortenPublicHoliday, validateInput } from "../helpers";
 import { PUBLIC_HOLIDAYS_API_URL } from "../config";
 
