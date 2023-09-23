@@ -2,7 +2,7 @@ import {
   getListOfPublicHolidays,
   checkIfTodayIsPublicHoliday,
   getNextPublicHolidays,
-} from "./public-holidays.service";
+} from "../public-holidays.service";
 
 describe("Services integration tests", () => {
   describe("getListOfPublicHolidays tests", () => {

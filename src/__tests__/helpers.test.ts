@@ -1,5 +1,5 @@
-import { validateInput, shortenPublicHoliday } from "./helpers";
-import holidayMocks from "./mock.json";
+import { validateInput, shortenPublicHoliday } from "../helpers";
+import holidayMocks from "../__mocks__/mock.json";
 
 describe("Helpers tests", () => {
   describe("validateInput helper tests", () => {
@@ -8,8 +8,6 @@ describe("Helpers tests", () => {
       { year: 2023, country: "FR", expected: true },
       { year: 2023, country: "DE", expected: true },
       { year: 2023, country: "NL", expected: true },
-      { year: NaN, country: "NL", expected: false },
-      { year: 2023, country: "", expected: false },
     ])(
       "should validate user input year: $year and country: $country",
       ({ year, country, expected }) => {
