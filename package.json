@@ -7,10 +7,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server.js",
-    "startActivityMonitor": "nodemon ./activityMonitor.js"
+    "startActivityMonitor": "nodemon ./activityMonitor.js",
     "customEmitter": "nodemon ./emitter.mjs",
     "time": "nodemon ./time.mjs",
-    "stream": "nodemon ./stream.mjs"
+    "stream": "nodemon ./stream.mjs",
+    "api": "nodemon ./api/index.mjs"
   },
   "repository": {
     "type": "git",
