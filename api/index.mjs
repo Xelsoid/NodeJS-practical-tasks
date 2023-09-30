@@ -7,11 +7,8 @@ import { deleteUser } from "./deleteUsers.mjs";
 import { updateUser } from "./updateUsers.mjs";
 
 const server = http.createServer(async (req, res) => {
-  // console.log(req.method);
   const parsedURL = url.parse(req.url)
   const pathURL = parsedURL.pathname;
-  // console.log(parsedURL)
-  // console.log(urlSearchParams.get('id'))
 
   if(pathURL === URLS.RETRIEVE_USER_BY_ID && req.method === "GET") {
     await getUsers(req, res);
