@@ -6,7 +6,7 @@ import {
   returnServerError,
   returnSuccessResult
 } from "./utils/index.mjs";
-import { STORAGE_PATH } from "./constants/index.mjs";
+import {STORAGE_PATH, URLS} from "./constants/index.mjs";
 
 export const getUsers = async (req, res) => {
   try{
@@ -21,13 +21,19 @@ export const getUsers = async (req, res) => {
 
       if(user) {
         const userResponseData = formatUserData([user])
-        returnSuccessResult(res, JSON.stringify(userResponseData));
+        returnSuccessResult(res, JSON.stringify({
+          data: userResponseData,
+          hobbiesURL: `${URLS.GET_HOBBIES}?name='userName'`
+        }));
       } else {
         returnNotFound(res, `User with specified id=${idParam} not found`)
       }
     } else {
       const usersResponseData = formatUserData(storage)
-      returnSuccessResult(res, JSON.stringify(usersResponseData));
+      returnSuccessResult(res, JSON.stringify({
+        data: usersResponseData,
+        hobbiesURL: `${URLS.GET_HOBBIES}?name='userName'`
+      }));
     }
   } catch(e) {
     returnServerError(res);

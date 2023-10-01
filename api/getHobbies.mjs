@@ -17,7 +17,8 @@ export const getHobbies = async (req, res) => {
     const user = storage.find((user) => user.name.toString() === nameParam);
 
     if(nameParam && user) {
-      returnSuccessResult(res, JSON.stringify(user.hobbies));
+      res.setHeader('Cache-Control', 'public, max-age=300');
+      returnSuccessResult(res, JSON.stringify({data: user.hobbies}));
     } else {
       returnNotFound(res, `User not found`)
     }
