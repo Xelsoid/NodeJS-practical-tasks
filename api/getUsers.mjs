@@ -1,5 +1,11 @@
 import url from "node:url";
-import {readFileStream, returnNotFound, returnServerError, returnSuccessResult} from "./utils/index.mjs";
+import {
+  formatUserData,
+  readFileStream,
+  returnNotFound,
+  returnServerError,
+  returnSuccessResult
+} from "./utils/index.mjs";
 import { STORAGE_PATH } from "./constants/index.mjs";
 
 export const getUsers = async (req, res) => {
@@ -14,12 +20,14 @@ export const getUsers = async (req, res) => {
       const user = storage.find((user) => user.id.toString() === idParam);
 
       if(user) {
-        returnSuccessResult(res, JSON.stringify(user));
+        const userResponseData = formatUserData([user])
+        returnSuccessResult(res, JSON.stringify(userResponseData));
       } else {
         returnNotFound(res, `User with specified id=${idParam} not found`)
       }
     } else {
-      returnSuccessResult(res, JSON.stringify(storage));
+      const usersResponseData = formatUserData(storage)
+      returnSuccessResult(res, JSON.stringify(usersResponseData));
     }
   } catch(e) {
     returnServerError(res);

@@ -17,6 +17,7 @@ export const returnNotFound = (res, data) => {
   res.end(data);
 }
 
+export const formatUserData = (users = []) => users.map(({id, name, email}) => ({ id, name, email }))
 
 export const getBody = (req) =>  {
   return new Promise((resolve, reject) => {
