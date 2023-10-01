@@ -10,9 +10,9 @@ export const updateUser = async (req, res) => {
 
     if(storage.length) {
       const userIndex = storage.findIndex(user => user.name === bodyParsed.name);
-      const modifyingUser = {...storage[userIndex], ...bodyParsed}
+      const modifiedUser = {...storage[userIndex], ...bodyParsed}
       storage.splice(userIndex, 1);
-      storage = [...storage, modifyingUser];
+      storage = [...storage, modifiedUser];
     }
     await writeFileStream(STORAGE_PATH, JSON.stringify(storage));
     returnSuccessResult(res, 'User updated');

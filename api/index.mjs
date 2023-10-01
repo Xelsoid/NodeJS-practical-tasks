@@ -5,6 +5,8 @@ import { URLS } from './constants/index.mjs'
 import { createUser } from "./createUsers.mjs";
 import { deleteUser } from "./deleteUsers.mjs";
 import { updateUser } from "./updateUsers.mjs";
+import { deleteHobby } from "./deleteHobby.mjs";
+import {updateHobby} from "./updateHobby.mjs";
 
 const server = http.createServer(async (req, res) => {
   const parsedURL = url.parse(req.url)
@@ -24,6 +26,14 @@ const server = http.createServer(async (req, res) => {
 
   if(pathURL === URLS.UPDATE_USER && req.method === "PUT") {
     await updateUser(req, res);
+  }
+
+  if(pathURL === URLS.DELETE_HOBBIES && req.method === "DELETE") {
+    await deleteHobby(req, res);
+  }
+
+  if(pathURL === URLS.UPDATE_HOBBIES && req.method === "PUT") {
+    await updateHobby(req, res);
   }
 });
 

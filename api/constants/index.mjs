@@ -3,6 +3,8 @@ export const URLS = {
   DELETE_USER: '/deleteUser',
   UPDATE_USER: '/updateUser',
   RETRIEVE_USER_BY_ID: '/retrieveUsers',
+  DELETE_HOBBIES: '/deleteHobbies',
+  UPDATE_HOBBIES: '/updateHobbies',
 };
 
 export const STORAGE_PATH = './api/storage/users.json';

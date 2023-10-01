@@ -28,7 +28,7 @@ export const getBody = (req) =>  {
         resolve(querystring.parse(body))
       })
       .on('error', () => {
-        reject(querystring.parse(body))
+        reject('parsing body error')
       });
   });
 }
@@ -60,4 +60,8 @@ export const writeFileStream = async (filePath, data) => {
       resolve();
     })
   });
+}
+
+export const findUserIndex = (usersList, userName) => {
+  return usersList.findIndex(user => user.name === userName);
 }
