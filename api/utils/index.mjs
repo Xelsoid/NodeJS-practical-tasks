@@ -1,9 +1,9 @@
 import querystring from "querystring";
 import fs from "fs";
 
-export const returnServerError = (res) => {
+export const returnServerError = (res, message = 'Server error') => {
   res.statusCode = 500;
-  res.end('Server error');
+  res.end(message);
 }
 
 export const returnSuccessResult = (res, data) => {
