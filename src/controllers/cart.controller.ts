@@ -88,16 +88,16 @@ app.get(CART_ENDPOINTS.PROFILE_CART, validateCartRequest, async (req: Request, r
 
 app.put(CART_ENDPOINTS.PROFILE_CART, validateCartRequest, async (req: Request, res: Response, next: NextFunction) => {
     const updatedCart = updateUserCart(req.header('x-user-id'), req.body);
-    // console.log(userCart)
-    // console.log(req.body)
-    // if(!userCart || !cartTotal){
-    //     throw(new Error("Internal Server error"));
-    // }
+    const cartTotal = returnCartTotal(updatedCart?.items);
+
+    if(!updatedCart || !cartTotal){
+        throw(new Error("Internal Server error"));
+    }
 
     res.status(200).send({
         "data": {
-            // "cart": userCart,
-            // "total": cartTotal
+            "cart": updatedCart,
+            "total": cartTotal
         },
         "error": null
     });

@@ -23,7 +23,7 @@ export const updateUserCart = (currentUserId: string, product) => {
 
     if(existingProduct && count) {
         existingProduct.count = count
-        updateProduct(currentUserId, existingProduct);
+        return updateProduct(currentUserId, existingProduct);
     }
 
     if(!existingProduct && title && description && price && count && productId) {
@@ -37,12 +37,8 @@ export const updateUserCart = (currentUserId: string, product) => {
             },
             count,
         }
-        createProduct(product);
-        return;
+        return createProduct(currentUserId, product);
     }
 
-    if(productId && count) {
-        // update existing product
-        return
-    }
+    return null;
 }

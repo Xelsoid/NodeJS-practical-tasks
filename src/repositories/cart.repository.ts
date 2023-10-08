@@ -22,12 +22,12 @@ export const updateProduct = (currentUserId, existingProduct) => {
     const productIndex = cart.items.findIndex(({ product }) => {
         return product.id === existingProduct.product.id;
     })
-    cart.items.splice(productIndex,1, existingProduct)
-    // console.log(cart)
-    // add cart to file
+    cart.items.splice(productIndex,1, existingProduct);
+    return cart;
 }
 
-export const createProduct = (product) => {
-    // add product to file
-    return product
+export const createProduct = (currentUserId, product) => {
+    const cart = findCartById(currentUserId);
+    cart.items.push(product);
+    return cart;
 }
