@@ -1,5 +1,5 @@
 import { cart } from '../data/cart'
-import {CartEntity} from "../schemas/cart.entity";
+import { CartEntity } from "../schemas/cart.entity";
 
 export const findCartById = (currentUserId: string) : CartEntity | null => {
     return cart.find(({ userId }) => userId === currentUserId) || null;
@@ -29,5 +29,11 @@ export const updateProduct = (currentUserId, existingProduct) => {
 export const createProduct = (currentUserId, product) => {
     const cart = findCartById(currentUserId);
     cart.items.push(product);
+    return cart;
+}
+
+export const deleteCart = (currentUserId) => {
+    const cart = findCartById(currentUserId);
+    cart.isDeleted = true;
     return cart;
 }
