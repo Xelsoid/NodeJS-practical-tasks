@@ -41,11 +41,17 @@ describe("Helpers tests", () => {
   });
 
   describe("shortenPublicHoliday helper tests", () => {
-    holidayMocks.forEach((holiday, index) => {
-      it(`should shorten public holiday object for "${holiday.mockedData.name}", test index: ${index}`, () => {
-        const result = shortenPublicHoliday(holiday.mockedData);
-        expect(result).toEqual(holiday.mockedResponse);
-      });
+    it("should shorten public holiday object for 'independence day'", () => {
+      const result = shortenPublicHoliday(holidayMocks[0].mockedData);
+      expect(result).toEqual(holidayMocks[0].mockedResponse);
+    });
+    it("should shorten public holiday object for 'x-mas'", () => {
+      const result = shortenPublicHoliday(holidayMocks[1].mockedData);
+      expect(result).toEqual(holidayMocks[1].mockedResponse);
+    });
+    it("should shorten public holiday object for 'new year'", () => {
+      const result = shortenPublicHoliday(holidayMocks[2].mockedData);
+      expect(result).toEqual(holidayMocks[2].mockedResponse);
     });
   });
 });

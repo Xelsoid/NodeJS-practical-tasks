@@ -21,28 +21,18 @@ describe("Services integration tests", () => {
       const year = 2023;
       const country = "BY";
 
-      try {
-        await getListOfPublicHolidays(year, country);
-      } catch (e) {
-        // @ts-ignore
-        expect(e.message).toBe(
-          `Country provided is not supported, received: ${country}`,
-        );
-      }
+      await expect(getListOfPublicHolidays(year, country)).rejects.toThrowError(
+        `Country provided is not supported, received: ${country}`,
+      );
     });
 
     it("shouldn't trigger call and throw an exception in case of wrong year", async () => {
       const year = 1;
       const country = "GB";
 
-      try {
-        await getListOfPublicHolidays(year, country);
-      } catch (e) {
-        // @ts-ignore
-        expect(e.message).toBe(
-          `Year provided not the current, received: ${year}`,
-        );
-      }
+      await expect(getListOfPublicHolidays(year, country)).rejects.toThrowError(
+        `Year provided not the current, received: ${year}`,
+      );
     });
   });
 
@@ -53,14 +43,10 @@ describe("Services integration tests", () => {
 
     it("shouldn't trigger call and throw an exception in case of wrong country", async () => {
       const country = "BY";
-      try {
-        await await checkIfTodayIsPublicHoliday(country);
-      } catch (e) {
-        // @ts-ignore
-        expect(e.message).toBe(
-          `Country provided is not supported, received: ${country}`,
-        );
-      }
+
+      await expect(checkIfTodayIsPublicHoliday(country)).rejects.toThrowError(
+        `Country provided is not supported, received: ${country}`,
+      );
     });
   });
 
@@ -72,14 +58,9 @@ describe("Services integration tests", () => {
     it("shouldn't trigger call and throw an exception in case of wrong country", async () => {
       const country = "BY";
 
-      try {
-        await getNextPublicHolidays(country);
-      } catch (e) {
-        // @ts-ignore
-        expect(e.message).toBe(
-          `Country provided is not supported, received: ${country}`,
-        );
-      }
+      await expect(getNextPublicHolidays(country)).rejects.toThrowError(
+        `Country provided is not supported, received: ${country}`,
+      );
     });
 
     it("should trigger call and return none empty data", async () => {
