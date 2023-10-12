@@ -26,7 +26,7 @@ export const updateProduct = (currentUserId, existingProduct) => {
     return cart;
 }
 
-export const createProduct = (currentUserId, product) => {
+export const addProduct = (currentUserId, product) => {
     const cart = findCartById(currentUserId);
     cart.items.push(product);
     return cart;

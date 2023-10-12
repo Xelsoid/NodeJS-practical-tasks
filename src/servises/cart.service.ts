@@ -1,5 +1,5 @@
 import {CartEntity, CartItemEntity} from "../schemas/cart.entity";
-import {findCartById, findProductById, createProduct, updateProduct, deleteCart} from '../repositories/cart.repository'
+import {findCartById, findProductById, addProduct, updateProduct, deleteCart} from '../repositories/cart.repository'
 
 export const returnUserCartData = (currentUserId: string): Omit<CartEntity, "userId" | "isDeleted"> => {
     const currentCart = findCartById(currentUserId);
@@ -37,7 +37,7 @@ export const updateUserCart = (currentUserId: string, product) => {
             },
             count,
         }
-        return createProduct(currentUserId, product);
+        return addProduct(currentUserId, product);
     }
 
     return null;
