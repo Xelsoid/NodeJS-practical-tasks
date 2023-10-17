@@ -1,39 +1,38 @@
 import { cart } from "../data/cart";
 import { CartEntity } from "../schemas/cart.entity";
 
-export const findCartById = (currentUserId: string): CartEntity | null => {
-  return cart.find(({ userId }) => userId === currentUserId) || null;
-};
+export const findCartById = (currentUserId: string): CartEntity | null =>
+  cart.find(({ userId }) => userId === currentUserId) || null;
 
 export const findProductById = (currentUserId: string, productId: string) => {
-  const cart = findCartById(currentUserId);
-  if (!cart?.items) {
+  const currentCart = findCartById(currentUserId);
+  if (!currentCart?.items) {
     return null;
   }
-  const product = cart.items.find(({ product }) => {
-    return product.id === productId;
-  });
-  return product || null;
+  const currentProduct = currentCart.items.find(
+    ({ product }) => product.id === productId,
+  );
+  return currentProduct || null;
 };
 
 export const updateProduct = (currentUserId, existingProduct) => {
-  const cart = findCartById(currentUserId);
+  const currentCart = findCartById(currentUserId);
 
-  const productIndex = cart.items.findIndex(({ product }) => {
-    return product.id === existingProduct.product.id;
-  });
-  cart.items.splice(productIndex, 1, existingProduct);
-  return cart;
+  const productIndex = currentCart.items.findIndex(
+    ({ product }) => product.id === existingProduct.product.id,
+  );
+  currentCart.items.splice(productIndex, 1, existingProduct);
+  return currentCart;
 };
 
 export const addProduct = (currentUserId, product) => {
-  const cart = findCartById(currentUserId);
-  cart.items.push(product);
-  return cart;
+  const currentCart = findCartById(currentUserId);
+  currentCart.items.push(product);
+  return currentCart;
 };
 
 export const deleteCart = (currentUserId) => {
-  const cart = findCartById(currentUserId);
-  cart.isDeleted = true;
-  return cart;
+  const currentCart = findCartById(currentUserId);
+  currentCart.isDeleted = true;
+  return currentCart;
 };

@@ -1,14 +1,13 @@
 import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
-import { CART_ENDPOINTS } from "./constants/index.js";
-import { logger } from "./utils";
+import { CART_ENDPOINTS, PRODUCT_ENDPOINTS } from "./constants/index.js";
+import { logger, validateCartRequest } from "./utils";
 import {
   addToCartById,
   deleteCartById,
   getCartByID,
 } from "./controllers/cart.controller";
 import { placeOrderById } from "./controllers/order.controller";
-import { validateCartRequest } from "./utils";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +23,14 @@ app.post(
   CART_ENDPOINTS.PROFILE_CART_CHECKOUT,
   validateCartRequest,
   placeOrderById,
+);
+
+app.get(PRODUCT_ENDPOINTS.PRODUCT, validateCartRequest, () => {});
+
+app.get(
+  `${PRODUCT_ENDPOINTS.PRODUCT}/:productId`,
+  validateCartRequest,
+  () => {},
 );
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
