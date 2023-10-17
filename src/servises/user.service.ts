@@ -1,5 +1,5 @@
-import { findUserById } from '../repositories/user.repository'
+import { findUserById } from "../repositories/user.repository";
 
-export const isUserExists = (userId: string): boolean => {
-    return !!findUserById(userId);
-}
+export const isUserExists = (userId: string) => {
+  return !!findUserById(userId);
+};

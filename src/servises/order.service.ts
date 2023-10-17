@@ -1,5 +1,4 @@
-import {findOrderById} from '../repositories/order.repository'
+import { findOrderById } from "../repositories/order.repository";
 
-export const createNewOrder = (currentUserId: string) => {
-    return findOrderById(currentUserId);
-}
+export const createNewOrder = (currentUserId: string) =>
+  findOrderById(currentUserId);

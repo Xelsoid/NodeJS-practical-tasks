@@ -1,6 +1,5 @@
-import { order } from '../data/order'
-import { OrderEntity } from "../schemas/order.entity";
+import { order } from "../data/order";
 
-export const findOrderById = (currentUserId: string): OrderEntity | null => {
-    return order.find(({ userId }) => userId === currentUserId) || null;
-}
+export const findOrderById = (currentUserId: string) => {
+  return order.find(({ userId }) => userId === currentUserId) || null;
+};
