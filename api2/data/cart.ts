@@ -1,4 +1,4 @@
-import { CartEntity } from "../schemas/cart.entity.js";
+import { CartEntity } from "../schemas/cart.entity";
 
 export const cart: CartEntity[] = [
   {
