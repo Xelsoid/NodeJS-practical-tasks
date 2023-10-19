@@ -8,6 +8,10 @@ import {
   getCartByID,
 } from "./controllers/cart.controller";
 import { placeOrderById } from "./controllers/order.controller";
+import {
+  getProductById,
+  getProductsList,
+} from "./controllers/product.controller";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,12 +29,12 @@ app.post(
   placeOrderById,
 );
 
-app.get(PRODUCT_ENDPOINTS.PRODUCT, validateCartRequest, () => {});
+app.get(PRODUCT_ENDPOINTS.PRODUCT, validateCartRequest, getProductsList);
 
 app.get(
   `${PRODUCT_ENDPOINTS.PRODUCT}/:productId`,
   validateCartRequest,
-  () => {},
+  getProductById,
 );
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
