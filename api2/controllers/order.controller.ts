@@ -11,8 +11,7 @@ export const placeOrderById = async (
     throw new Error("Internal Server error");
   }
 
-  res.status(200).send({
+  res.status(201).send({
     data: { order },
-    error: null,
   });
 };

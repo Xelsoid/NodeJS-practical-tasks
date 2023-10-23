@@ -17,11 +17,8 @@ export const returnUserCartData = (currentUserId: string) => {
   return cart;
 };
 
-export const returnCartTotal = (items: CartItemEntity[]) => {
-  return items.reduce((acc, item) => {
-    return acc + item.product.price * item.count;
-  }, 0);
-};
+export const returnCartTotal = (items: CartItemEntity[]) =>
+  items.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
 export const updateUserCart = (currentUserId: string, product) => {
   const { productId, count, title, description, price } = product;
@@ -33,8 +30,8 @@ export const updateUserCart = (currentUserId: string, product) => {
   }
 
   if (!existingProduct && title && description && price && count && productId) {
-    //create new product
-    const product = {
+    // create new product
+    const currentProduct = {
       product: {
         id: productId,
         title,
@@ -43,12 +40,11 @@ export const updateUserCart = (currentUserId: string, product) => {
       },
       count,
     };
-    return addProduct(currentUserId, product);
+    return addProduct(currentUserId, currentProduct);
   }
 
   return null;
 };
 
-export const deleteUserCart = (currentUserId: string) => {
-  return deleteCart(currentUserId);
-};
+export const deleteUserCart = (currentUserId: string) =>
+  deleteCart(currentUserId);

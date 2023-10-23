@@ -10,6 +10,7 @@ export const PRODUCT_ENDPOINTS = {
 export const METHOD = {
   GET: "GET",
   PUT: "PUT",
+  PATCH: "PATCH",
   DELETE: "DELETE",
   POST: "POST",
 };

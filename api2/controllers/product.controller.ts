@@ -17,7 +17,6 @@ export const getProductsList = async (
 
   res.status(200).send({
     data: products,
-    error: null,
   });
 };
 
@@ -41,6 +40,5 @@ export const getProductById = async (
 
   res.status(200).send({
     data: product,
-    error: null,
   });
 };

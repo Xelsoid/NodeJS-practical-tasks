@@ -63,6 +63,5 @@ export const deleteCartById = async (
     data: {
       success: deletedCart.isDeleted,
     },
-    error: null,
   });
 };

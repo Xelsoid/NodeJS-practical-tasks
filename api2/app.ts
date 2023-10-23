@@ -1,7 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import { CART_ENDPOINTS, PRODUCT_ENDPOINTS } from "./constants/index.js";
-import { logger, validateCartRequest } from "./utils";
+import {
+  logger,
+  validateAuthorization,
+  validateProducts,
+  validateCart,
+} from "./utils";
 import {
   addToCartById,
   deleteCartById,
@@ -17,23 +22,44 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger);
 
-app.get(CART_ENDPOINTS.PROFILE_CART, validateCartRequest, getCartByID);
+app.get(
+  CART_ENDPOINTS.PROFILE_CART,
+  validateAuthorization,
+  validateCart,
+  getCartByID,
+);
 
-app.put(CART_ENDPOINTS.PROFILE_CART, validateCartRequest, addToCartById);
+app.patch(
+  CART_ENDPOINTS.PROFILE_CART,
+  validateAuthorization,
+  validateCart,
+  addToCartById,
+);
 
-app.delete(CART_ENDPOINTS.PROFILE_CART, validateCartRequest, deleteCartById);
+app.delete(
+  CART_ENDPOINTS.PROFILE_CART,
+  validateAuthorization,
+  validateCart,
+  deleteCartById,
+);
 
 app.post(
   CART_ENDPOINTS.PROFILE_CART_CHECKOUT,
-  validateCartRequest,
+  validateAuthorization,
   placeOrderById,
 );
 
-app.get(PRODUCT_ENDPOINTS.PRODUCT, validateCartRequest, getProductsList);
+app.get(
+  PRODUCT_ENDPOINTS.PRODUCT,
+  validateAuthorization,
+  validateProducts,
+  getProductsList,
+);
 
 app.get(
   `${PRODUCT_ENDPOINTS.PRODUCT}/:productId`,
-  validateCartRequest,
+  validateAuthorization,
+  validateProducts,
   getProductById,
 );
 
