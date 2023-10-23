@@ -17,11 +17,11 @@ export const createUser = async (req, res) => {
     if(storage.length) {
       storage.push(userData)
     } else {
-      storage = [...userData];
+      storage = userData;
     }
 
     await writeFileStream(STORAGE_PATH, JSON.stringify(storage));
-    returnSuccessResult(res, 'User saved')
+    returnSuccessResult(res, 'User saved', 201)
   } catch(e) {
     returnServerError(res);
   }

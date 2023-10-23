@@ -8,7 +8,6 @@ import {
 import { STORAGE_PATH } from "./constants/index.mjs";
 import {getBody, readFileStream} from "./utils/index.mjs";
 
-
 export const deleteUser = async (req, res) => {
   try {
     const bodyParsed = await getBody(req);

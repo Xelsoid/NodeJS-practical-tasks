@@ -6,8 +6,8 @@ export const returnServerError = (res, message = 'Server error') => {
   res.end(message);
 }
 
-export const returnSuccessResult = (res, data) => {
-  res.statusCode = 200;
+export const returnSuccessResult = (res, data, code = 200) => {
+  res.statusCode = code;
   res.setHeader('Content-Type', 'text/plain');
   res.end(data);
 }

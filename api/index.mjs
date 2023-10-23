@@ -1,6 +1,7 @@
 import http from 'http';
 import url from 'node:url';
-import { getUsers } from './getUsers.mjs'
+import querystring from "querystring";
+import { getUsers, getUserById } from './getUsers.mjs'
 import { URLS } from './constants/index.mjs'
 import { createUser } from "./createUsers.mjs";
 import { deleteUser } from "./deleteUsers.mjs";
@@ -12,7 +13,13 @@ import { getHobbies } from "./getHobbies.mjs";
 
 const server = http.createServer(async (req, res) => {
   const parsedURL = url.parse(req.url)
+  const queryArr = querystring.parse(parsedURL.query);
   const pathURL = parsedURL.pathname;
+
+  if(pathURL === URLS.RETRIEVE_USER_BY_ID && queryArr?.id && req.method === "GET") {
+    await getUserById(req, res, queryArr?.id);
+    return;
+  }
 
   if(pathURL === URLS.RETRIEVE_USER_BY_ID && req.method === "GET") {
     await getUsers(req, res);
@@ -29,7 +36,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if(pathURL === URLS.UPDATE_USER && req.method === "PUT") {
+  if(pathURL === URLS.UPDATE_USER && req.method === "PATCH") {
     await updateUser(req, res);
     return;
   }
@@ -39,7 +46,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if(pathURL === URLS.UPDATE_HOBBIES && req.method === "PUT") {
+  if(pathURL === URLS.UPDATE_HOBBIES && req.method === "PATCH") {
     await updateHobby(req, res);
     return;
   }
