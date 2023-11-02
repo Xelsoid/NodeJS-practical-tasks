@@ -1,0 +1,50 @@
+[
+  {
+    "date": "25 august",
+    "localName": "independence day of Belarus",
+    "name": "independence day",
+    "countryCode": "BY",
+    "fixed": true,
+    "global": true,
+    "counties": [
+      "BY"
+    ],
+    "launchYear": 1991,
+    "types": [
+      "national"
+    ]
+  },
+  {
+    "date": "25 december",
+    "localName": "x-mas",
+    "name": "x-mas",
+    "countryCode": "GB",
+    "fixed": true,
+    "global": true,
+    "counties": [
+      "GB",
+      "BE"
+    ],
+    "launchYear": 0,
+    "types": [
+      "national"
+    ]
+  },
+  {
+    "date": "1 january",
+    "localName": "new year",
+    "name": "new year",
+    "countryCode": "GB",
+    "fixed": true,
+    "global": true,
+    "counties": [
+      "GB",
+      "BE"
+    ],
+    "launchYear": 0,
+    "types": [
+      "national"
+    ]
+  }
+]
+
