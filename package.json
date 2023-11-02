@@ -11,10 +11,11 @@
     "lint": "eslint --fix",
     "start": "nodemon ./server.js",
     "startActivityMonitor": "nodemon ./activityMonitor.js",
-    "customEmitter": "nodemon ./emitter.mjs",
-    "time": "nodemon ./time.mjs",
-    "stream": "nodemon ./stream.mjs",
-    "task6": "nodemon api2/app.ts"
+    "task6": "nodemon api2/app.ts",
+    "customEmitter": "nodemon ./emitter.js",
+    "time": "nodemon ./time.js",
+    "stream": "nodemon ./stream.js",
+    "api": "nodemon ./api/index.js"
   },
   "repository": {
     "type": "git",
