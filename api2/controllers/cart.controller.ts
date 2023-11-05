@@ -12,8 +12,7 @@ export const getCartByID = async (
   next: NextFunction,
 ) => {
   const userCart = returnUserCartData(req.header("x-user-id"));
-  const cartTotal = returnCartTotal(userCart.items);
-
+  const cartTotal = returnCartTotal(userCart?.items);
   if (!userCart || !cartTotal) {
     throw new Error("Internal Server error");
   }

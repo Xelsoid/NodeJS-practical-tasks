@@ -18,7 +18,7 @@ export const returnUserCartData = (currentUserId: string) => {
 };
 
 export const returnCartTotal = (items: CartItemEntity[]) =>
-  items.reduce((acc, item) => acc + item.product.price * item.count, 0);
+  items?.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
 export const updateUserCart = (currentUserId: string, product) => {
   const { productId, count, title, description, price } = product;

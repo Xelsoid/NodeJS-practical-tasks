@@ -17,7 +17,9 @@ import {
   getProductById,
   getProductsList,
 } from "./controllers/product.controller";
+import { checkDataBaseConnection } from "./dbinit";
 
+checkDataBaseConnection();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger);
