@@ -7,7 +7,7 @@ export const findCartById = async (
   isDeleted = false,
 ): Promise<CartEntity | null> => {
   const cart = await Cart.findOne({
-    where: { userId: currentUserId, isDeleted: false },
+    where: { userId: currentUserId, isDeleted },
   });
   return cart;
 };

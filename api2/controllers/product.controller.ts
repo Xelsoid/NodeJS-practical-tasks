@@ -9,9 +9,9 @@ export const getProductsList = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const products = returnProductsList();
+  const products = await returnProductsList();
 
-  if (!products.length) {
+  if (!products) {
     throw new Error("Internal Server error");
   }
 
@@ -26,13 +26,13 @@ export const getProductById = async (
   next: NextFunction,
 ) => {
   const { productId } = req.params;
-  const product = returnProductById(productId);
+  const product = await returnProductById(productId);
 
   if (!product) {
     res.status(404).send({
       data: null,
       error: {
-        message: "No product with such id",
+        message: `There is no product with id ${productId}`,
       },
     });
     return;
