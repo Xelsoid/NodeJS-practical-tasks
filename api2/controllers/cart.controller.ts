@@ -11,7 +11,7 @@ export const getCartByID = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const userCart = returnUserCartData(req.header("x-user-id"));
+  const userCart = await returnUserCartData(req.header("x-user-id"));
   const cartTotal = returnCartTotal(userCart?.items);
   if (!userCart || !cartTotal) {
     throw new Error("Internal Server error");
@@ -31,7 +31,7 @@ export const addToCartById = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const updatedCart = updateUserCart(req.header("x-user-id"), req.body);
+  const updatedCart = await updateUserCart(req.header("x-user-id"), req.body);
   const cartTotal = returnCartTotal(updatedCart?.items);
 
   if (!updatedCart || !cartTotal) {

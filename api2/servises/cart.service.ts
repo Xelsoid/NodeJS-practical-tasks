@@ -7,8 +7,8 @@ import {
   deleteCart,
 } from "../repositories/cart.repository";
 
-export const returnUserCartData = (currentUserId: string) => {
-  const currentCart = findCartById(currentUserId);
+export const returnUserCartData = async (currentUserId: string) => {
+  const currentCart = await findCartById(currentUserId);
   if (!currentCart) return null;
 
   const cart = { ...currentCart };
@@ -20,9 +20,9 @@ export const returnUserCartData = (currentUserId: string) => {
 export const returnCartTotal = (items: CartItemEntity[]) =>
   items?.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
-export const updateUserCart = (currentUserId: string, product) => {
+export const updateUserCart = async (currentUserId: string, product) => {
   const { productId, count, title, description, price } = product;
-  const existingProduct = findProductById(currentUserId, productId);
+  const existingProduct = await findProductById(currentUserId, productId);
 
   if (existingProduct && count) {
     existingProduct.count = count;

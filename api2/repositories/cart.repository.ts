@@ -1,12 +1,18 @@
 import { randomUUID } from "crypto";
-import { cart } from "../data/cart";
 import { CartEntity } from "../schemas/cart.entity";
 import { Cart } from "../dbinit";
 
-export const findCartById = (currentUserId: string): CartEntity | null =>
-  cart.find(({ userId }) => userId === currentUserId) || null;
+export const findCartById = async (
+  currentUserId: string,
+  isDeleted = false,
+): Promise<CartEntity | null> => {
+  const cart = await Cart.findOne({
+    where: { userId: currentUserId, isDeleted: false },
+  });
+  return cart;
+};
 
-const createCart = async (currentUserId) => {
+const createNewCart = async (currentUserId) => {
   const newCart = await Cart.create({
     id: randomUUID(),
     userId: currentUserId,
@@ -28,8 +34,11 @@ export const deleteCart = async (currentUserId) => {
   return currentCart;
 };
 
-export const findProductById = (currentUserId: string, productId: string) => {
-  const currentCart = findCartById(currentUserId);
+export const findProductById = async (
+  currentUserId: string,
+  productId: string,
+) => {
+  const currentCart = await findCartById(currentUserId);
   if (!currentCart?.items) {
     return null;
   }
@@ -39,8 +48,8 @@ export const findProductById = (currentUserId: string, productId: string) => {
   return currentProduct || null;
 };
 
-export const updateProduct = (currentUserId, existingProduct) => {
-  const currentCart = findCartById(currentUserId);
+export const updateProduct = async (currentUserId, existingProduct) => {
+  const currentCart = await findCartById(currentUserId);
 
   const productIndex = currentCart.items.findIndex(
     ({ product }) => product.id === existingProduct.product.id,
@@ -49,8 +58,8 @@ export const updateProduct = (currentUserId, existingProduct) => {
   return currentCart;
 };
 
-export const addProduct = (currentUserId, product) => {
-  const currentCart = findCartById(currentUserId);
+export const addProduct = async (currentUserId, product) => {
+  const currentCart = await findCartById(currentUserId);
   currentCart.items.push(product);
   return currentCart;
 };
