@@ -52,9 +52,9 @@ export const deleteCartById = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const deletedCart = deleteUserCart(req.header("x-user-id"));
+  const deletedCart = await deleteUserCart(req.header("x-user-id"));
 
-  if (!deletedCart || !deletedCart.isDeleted) {
+  if (!deletedCart) {
     throw new Error("Internal Server error");
   }
 

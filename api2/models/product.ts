@@ -2,26 +2,30 @@ import { DataTypes } from "sequelize";
 
 export default (sequelize) =>
   sequelize.define(
-    "employee",
+    "product",
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUIDV4,
         primaryKey: true,
+        allowNull: false,
       },
-      name: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      joindate: {
-        type: DataTypes.DATE,
+      description: {
+        type: DataTypes.STRING,
+      },
+      price: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
       // Other model options go here
       sequelize, // We need to pass the connection instance
-      modelName: "employee", // We need to choose the model name
-      tableName: "employee",
+      modelName: "product", // We need to choose the model name
+      tableName: "product",
       timestamps: false,
     },
   );

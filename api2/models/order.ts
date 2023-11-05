@@ -16,12 +16,28 @@ export default (sequelize, User) =>
           key: "id",
         },
       },
-      isDeleted: {
+      cartId: {
+        type: DataTypes.STRING,
+        references: {
+          model: User,
+          key: "id",
+        },
+      },
+      items: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      items: {
-        type: DataTypes.ARRAY(DataTypes.JSON),
+      comments: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      total: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
     },
     {
