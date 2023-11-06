@@ -15,8 +15,7 @@
     "time": "nodemon ./time.js",
     "stream": "nodemon ./stream.js",
     "api": "nodemon ./api/index.js",
-    "runApp": "nodemon api2/app.ts",
-    "runBD": "nodemon api2/dbinit.ts"
+    "runApp": "nodemon api2/app.ts"
   },
   "repository": {
     "type": "git",
