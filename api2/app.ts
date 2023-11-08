@@ -31,7 +31,7 @@ app.get(
   getCartByID,
 );
 
-app.patch(
+app.put(
   CART_ENDPOINTS.PROFILE_CART,
   validateAuthorization,
   validateCart,

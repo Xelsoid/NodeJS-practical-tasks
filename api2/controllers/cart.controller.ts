@@ -32,7 +32,7 @@ export const addToCartById = async (
   next: NextFunction,
 ) => {
   const updatedCart = await updateUserCart(req.header("x-user-id"), req.body);
-  const cartTotal = returnCartTotal(updatedCart?.items);
+  const cartTotal = returnCartTotal(updatedCart?.cartItems);
 
   if (!updatedCart || !cartTotal) {
     throw new Error("Internal Server error");

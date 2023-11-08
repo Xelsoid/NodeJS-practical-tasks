@@ -5,7 +5,7 @@ export default (sequelize) =>
     "product",
     {
       id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
         primaryKey: true,
         allowNull: false,
       },

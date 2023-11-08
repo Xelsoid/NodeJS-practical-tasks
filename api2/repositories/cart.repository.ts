@@ -1,18 +1,17 @@
 import { randomUUID } from "crypto";
-import { CartEntity } from "../schemas/cart.entity";
-import { Cart } from "../dbinit";
+import { Cart ,User, CartItem, Product } from "../dbinit";
 
 export const findCartById = async (
   currentUserId: string,
   isDeleted = false,
-): Promise<CartEntity | null> => {
+) => {
   const cart = await Cart.findOne({
     where: { userId: currentUserId, isDeleted },
   });
   return cart;
 };
 
-const createNewCart = async (currentUserId) => {
+const createNewCart = async (currentUserId: string) => {
   const newCart = await Cart.create({
     id: randomUUID(),
     userId: currentUserId,
@@ -22,7 +21,7 @@ const createNewCart = async (currentUserId) => {
   return newCart;
 };
 
-export const deleteCart = async (currentUserId) => {
+export const deleteCart = async (currentUserId: string) => {
   const currentCart = await Cart.findOne({
     where: { userId: currentUserId, isDeleted: false },
   });
@@ -34,6 +33,52 @@ export const deleteCart = async (currentUserId) => {
   return currentCart;
 };
 
+export const findCartsInDB = async (currentUserId: string) => {
+  const userCarts = await User.findByPk(currentUserId, {
+    include: [{
+      model: Cart,
+      include: [{
+        model: CartItem,
+        include:[{
+          model: Product
+        }]
+      }]
+    }]
+  });
+  return userCarts;
+};
+
+
+export const updateCart = async (
+  currentUserId: string,
+  product: { productId: string; count: number },
+) => {
+  const currentUser = await User.findByPk(currentUserId, { include: [{ model: Cart, include: [{ model: CartItem }] }] });
+  const activeCart = currentUser?.carts?.find(({isDeleted}) => !isDeleted);
+  // console.log("carts ", await currentUser.getCarts());
+  // console.log("items", await cart.getCartItems());
+  // console.log(cart.toJSON());
+  // console.log(activeCart.toJSON());
+  // if (activeCart) {
+  //   const { productId, count } = product;
+  //   const existingProduct = cart?.cart_entities?.find(
+  //     ({ productId: id }) => id === productId,
+  //   );
+  //   if (existingProduct) {
+  //     existingProduct.count = count;
+  //   } else {
+  //     const newProduct = await cart.createCartEntity({ id: randomUUID(), cartId: cart.id, productId, count });
+  //     newProduct.save();
+  //     console.log(newProduct.toJSON());
+  //     // cart.cart_entities = [...cart.cart_entities, { id: randomUUID(), cartId: cart.id,productId, count }];
+  //   }
+  //
+  //   cart.save();
+  //   console.log(cart.toJSON());
+  // }
+  return {};
+};
+
 export const findProductById = async (
   currentUserId: string,
   productId: string,
@@ -42,13 +87,12 @@ export const findProductById = async (
   if (!currentCart?.items) {
     return null;
   }
-  const currentProduct = currentCart.items.find(
-    ({ product }) => product.id === productId,
-  );
+  const currentProduct = currentCart.items.find(({ id }) => id === productId);
+
   return currentProduct || null;
 };
 
-export const updateProduct = async (currentUserId, existingProduct) => {
+export const updateProduct = async (currentUserId: string, existingProduct) => {
   const currentCart = await findCartById(currentUserId);
 
   const productIndex = currentCart.items.findIndex(

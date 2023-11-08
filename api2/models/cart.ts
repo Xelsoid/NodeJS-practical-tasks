@@ -20,9 +20,6 @@ export default (sequelize, User) =>
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      items: {
-        type: DataTypes.ARRAY(DataTypes.JSON),
-      },
     },
     {
       // Other model options go here
