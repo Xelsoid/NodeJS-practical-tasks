@@ -48,37 +48,6 @@ export const findCartsInDB = async (currentUserId: string) => {
   return userCarts;
 };
 
-
-export const updateCart = async (
-  currentUserId: string,
-  product: { productId: string; count: number },
-) => {
-  const currentUser = await User.findByPk(currentUserId, { include: [{ model: Cart, include: [{ model: CartItem }] }] });
-  const activeCart = currentUser?.carts?.find(({isDeleted}) => !isDeleted);
-  // console.log("carts ", await currentUser.getCarts());
-  // console.log("items", await cart.getCartItems());
-  // console.log(cart.toJSON());
-  // console.log(activeCart.toJSON());
-  // if (activeCart) {
-  //   const { productId, count } = product;
-  //   const existingProduct = cart?.cart_entities?.find(
-  //     ({ productId: id }) => id === productId,
-  //   );
-  //   if (existingProduct) {
-  //     existingProduct.count = count;
-  //   } else {
-  //     const newProduct = await cart.createCartEntity({ id: randomUUID(), cartId: cart.id, productId, count });
-  //     newProduct.save();
-  //     console.log(newProduct.toJSON());
-  //     // cart.cart_entities = [...cart.cart_entities, { id: randomUUID(), cartId: cart.id,productId, count }];
-  //   }
-  //
-  //   cart.save();
-  //   console.log(cart.toJSON());
-  // }
-  return {};
-};
-
 export const findProductById = async (
   currentUserId: string,
   productId: string,

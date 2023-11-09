@@ -3,18 +3,15 @@ import { CartItemEntity } from "../schemas/cart.entity";
 import {
   findCartById,
   deleteCart,
-  updateCart, findCartsInDB,
+  findCartsInDB,
 } from "../repositories/cart.repository";
-import {findCartItem, findProductsByIds, getProductById} from "../repositories/product.repository";
+import {getProductById} from "../repositories/product.repository";
 
 const getActiveCart = (carts) => carts?.carts?.find(({isDeleted}) => !isDeleted);
 
 const getCartItem = (cartItems, productId, cartId) => cartItems.find(({productId: pId, cartId: cId}) =>
   productId === pId && cartId === cId
 );
-
-const gatherProductIds = (cartItems) => cartItems.map(({productId}) => productId);
-
 
 export const returnUserCartData = async (currentUserId: string) => {
   const currentCart = await findCartById(currentUserId);
@@ -36,7 +33,7 @@ export const updateUserCart = async (
   const {productId, count} = product;
   const isProductExists = await getProductById(productId);
   const carts = await findCartsInDB(currentUserId);
-  console.log(carts);
+
   const activeCart = getActiveCart(carts);
 
   if(!activeCart || !isProductExists) return null;
@@ -46,7 +43,7 @@ export const updateUserCart = async (
 
   if(currentCartItem) {
     currentCartItem.count = count;
-    currentCartItem.save();
+    await currentCartItem.save();
   } else {
     await activeCart.createCartItem({
       id: randomUUID(),
@@ -56,6 +53,7 @@ export const updateUserCart = async (
     });
   }
 
+  await activeCart.reload();
   return activeCart;
 };
 
