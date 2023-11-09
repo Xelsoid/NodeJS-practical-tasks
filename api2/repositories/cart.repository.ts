@@ -11,25 +11,15 @@ export const findCartById = async (
   return cart;
 };
 
-const createNewCart = async (currentUserId: string) => {
-  const newCart = await Cart.create({
-    id: randomUUID(),
-    userId: currentUserId,
-    isDeleted: false,
-    items: [],
-  });
-  return newCart;
-};
-
 export const deleteCart = async (currentUserId: string) => {
   const currentCart = await Cart.findOne({
     where: { userId: currentUserId, isDeleted: false },
   });
   if (currentCart) {
     currentCart.isDeleted = true;
-    currentCart.save();
+    await currentCart.save();
   }
-
+  await currentCart.reload();
   return currentCart;
 };
 
