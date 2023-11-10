@@ -1,6 +1,8 @@
 import { randomUUID } from "crypto";
 import { Cart ,User, CartItem, Product } from "../dbinit";
 
+const getActiveCart = (carts) => carts?.carts?.find(({isDeleted}) => !isDeleted);
+
 export const findCartById = async (
   currentUserId: string,
   isDeleted = false,
@@ -36,6 +38,12 @@ export const findCartsInDB = async (currentUserId: string) => {
     }]
   });
   return userCarts;
+};
+
+export const findActiveCart = async (currentUserId: string) => {
+  const userCarts = await findCartsInDB(currentUserId);
+  const activeCart = getActiveCart(userCarts);
+  return activeCart;
 };
 
 export const findProductById = async (

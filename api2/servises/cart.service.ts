@@ -1,30 +1,21 @@
 import { randomUUID } from "crypto";
 import { CartItemEntity } from "../schemas/cart.entity";
-import {
-  findCartById,
-  deleteCart,
-  findCartsInDB,
-} from "../repositories/cart.repository";
-import {getProductById} from "../repositories/product.repository";
-
-const getActiveCart = (carts) => carts?.carts?.find(({isDeleted}) => !isDeleted);
+import { deleteCart, findActiveCart } from "../repositories/cart.repository";
+import { getProductById } from "../repositories/product.repository";
 
 const getCartItem = (cartItems, productId, cartId) => cartItems.find(({productId: pId, cartId: cId}) =>
   productId === pId && cartId === cId
 );
 
-export const returnUserCartData = async (currentUserId: string) => {
-  const currentCart = await findCartById(currentUserId);
-  if (!currentCart) return null;
+export const calcCartTotal = (cartItems: CartItemEntity[] = []) =>
+  cartItems?.reduce((acc, cartItem) => acc + cartItem.product.price * cartItem.count, 0);
 
-  const cart = { ...currentCart };
-  delete cart?.userId;
-  delete cart?.isDeleted;
-  return cart;
+
+export const getUserCartData = async (currentUserId: string) => {
+  const currentCart = await findActiveCart(currentUserId);
+  return currentCart;
 };
 
-export const returnCartTotal = (cartItems: CartItemEntity[] = []) =>
-  cartItems?.reduce((acc, cartItem) => acc + cartItem.product.price * cartItem.count, 0);
 
 export const updateUserCart = async (
   currentUserId: string,
@@ -32,9 +23,7 @@ export const updateUserCart = async (
 ) => {
   const {productId, count} = product;
   const isProductExists = await getProductById(productId);
-  const carts = await findCartsInDB(currentUserId);
-
-  const activeCart = getActiveCart(carts);
+  const activeCart = await findActiveCart(currentUserId);
 
   if(!activeCart || !isProductExists) return null;
 

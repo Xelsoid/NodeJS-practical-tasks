@@ -22,9 +22,8 @@ export default (sequelize) =>
       },
     },
     {
-      // Other model options go here
-      sequelize, // We need to pass the connection instance
-      modelName: "product", // We need to choose the model name
+      sequelize,
+      modelName: "product",
       tableName: "product",
       timestamps: false,
     },

@@ -1,8 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 import {
-  returnCartTotal,
+  calcCartTotal,
   updateUserCart,
-  returnUserCartData,
+  getUserCartData,
   deleteUserCart,
 } from "../servises/cart.service";
 
@@ -11,8 +11,9 @@ export const getCartByID = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const userCart = await returnUserCartData(req.header("x-user-id"));
-  const cartTotal = returnCartTotal(userCart?.items);
+  const userCart = await getUserCartData(req.header("x-user-id"));
+  const cartTotal = calcCartTotal(userCart?.cartItems);
+
   if (!userCart || !cartTotal) {
     throw new Error("Internal Server error");
   }
@@ -32,7 +33,7 @@ export const addToCartById = async (
   next: NextFunction,
 ) => {
   const updatedCart = await updateUserCart(req.header("x-user-id"), req.body);
-  const cartTotal = returnCartTotal(updatedCart?.cartItems);
+  const cartTotal = calcCartTotal(updatedCart?.cartItems);
 
   if (!updatedCart || !cartTotal) {
     throw new Error("Internal Server error");
