@@ -1,5 +1,4 @@
-import { randomUUID } from "crypto";
-import { Cart ,User, CartItem, Product } from "../dbinit";
+import {Cart, CartItem, Product, User} from "../dbinit";
 
 const getActiveCart = (carts) => carts?.carts?.find(({isDeleted}) => !isDeleted);
 
@@ -42,35 +41,5 @@ export const findCartsInDB = async (currentUserId: string) => {
 
 export const findActiveCart = async (currentUserId: string) => {
   const userCarts = await findCartsInDB(currentUserId);
-  const activeCart = getActiveCart(userCarts);
-  return activeCart;
-};
-
-export const findProductById = async (
-  currentUserId: string,
-  productId: string,
-) => {
-  const currentCart = await findCartById(currentUserId);
-  if (!currentCart?.items) {
-    return null;
-  }
-  const currentProduct = currentCart.items.find(({ id }) => id === productId);
-
-  return currentProduct || null;
-};
-
-export const updateProduct = async (currentUserId: string, existingProduct) => {
-  const currentCart = await findCartById(currentUserId);
-
-  const productIndex = currentCart.items.findIndex(
-    ({ product }) => product.id === existingProduct.product.id,
-  );
-  currentCart.items.splice(productIndex, 1, existingProduct);
-  return currentCart;
-};
-
-export const addProduct = async (currentUserId, product) => {
-  const currentCart = await findCartById(currentUserId);
-  currentCart.items.push(product);
-  return currentCart;
+  return getActiveCart(userCarts);
 };

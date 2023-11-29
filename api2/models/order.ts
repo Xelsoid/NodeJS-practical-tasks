@@ -1,11 +1,11 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize, User) =>
+export default (sequelize, User, Cart, Payment, Delivery) =>
   sequelize.define(
-    "cart",
+    "order",
     {
       id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false,
       },
@@ -19,13 +19,23 @@ export default (sequelize, User) =>
       cartId: {
         type: DataTypes.STRING,
         references: {
-          model: User,
+          model: Cart,
           key: "id",
         },
       },
-      items: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
+      paymentId: {
+        type: DataTypes.STRING,
+        references: {
+          model: Payment,
+          key: "id",
+        },
+      },
+      deliveryId: {
+        type: DataTypes.STRING,
+        references: {
+          model: Delivery,
+          key: "id",
+        },
       },
       comments: {
         type: DataTypes.STRING,
@@ -43,8 +53,8 @@ export default (sequelize, User) =>
     {
       // Other model options go here
       sequelize, // We need to pass the connection instance
-      modelName: "cart", // We need to choose the model name
-      tableName: "cart",
+      modelName: "order", // We need to choose the model name
+      tableName: "order",
       timestamps: false,
     },
   );

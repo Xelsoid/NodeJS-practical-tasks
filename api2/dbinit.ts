@@ -3,7 +3,10 @@ import { randomUUID } from "crypto";
 import userModel from "./models/users";
 import cartModel from "./models/cart";
 import productModel from "./models/product";
-import cartEntity from "./models/cart_entity";
+import cartItem from "./models/cartItem";
+import orderModel from "./models/order";
+import deliveryModel from "./models/delivery";
+import paymentModel from "./models/payment";
 
 const sequelize = new Sequelize("node_gmp", "node_gmp", "password123", {
   host: "127.0.0.1",
@@ -22,7 +25,10 @@ const checkDataBaseConnection = async () => {
 const Product = productModel(sequelize);
 const User = userModel(sequelize);
 const Cart = cartModel(sequelize, User);
-const CartItem = cartEntity(sequelize, Cart, Product, "Order");
+const CartItem = cartItem(sequelize, Cart, Product);
+const Delivery = deliveryModel(sequelize);
+const Payment = paymentModel(sequelize);
+const Order = orderModel(sequelize, User, Cart, Payment, Delivery);
 
 const syncDB = async () => {
   User.hasMany(Cart);
@@ -32,11 +38,24 @@ const syncDB = async () => {
   Product.hasMany(CartItem);
   CartItem.belongsTo(Product);
 
+  Delivery.hasOne(Order);
+  Payment.hasOne(Order);
+  Cart.hasOne(Order);
+  User.hasOne(Order);
+
+  Order.belongsTo(Delivery);
+  Order.belongsTo(Payment);
+  Order.belongsTo(Cart);
+  Order.belongsTo(User);
+
+  console.log("uuid ", randomUUID());
   // CartEntity.hasMany(Cart);
   // CartEntity.hasMany(Product);
   // Cart.belongsTo(CartEntity);
   // Product.belongsTo(CartEntity);
-  // await CartEntity.drop({ cascade: true });
+  // await Delivery.drop({ cascade: true });
+  // await Payment.drop({ cascade: true });
+  // await Order.drop({ cascade: true });
   await sequelize.sync();
   const product = await Product.findByPk(
     "51422fcd-0366-4186-ad5b-c23059b6f64f",

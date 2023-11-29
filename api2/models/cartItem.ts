@@ -1,11 +1,11 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize, Cart, Product, Order) =>
+export default (sequelize, Cart, Product) =>
   sequelize.define(
     "cartItem",
     {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false,
       },
@@ -16,13 +16,6 @@ export default (sequelize, Cart, Product, Order) =>
           key: "id",
         },
       },
-      // order: {
-      //   type: DataTypes.UUIDV4,
-      //   references: {
-      //     model: Order,
-      //     key: "id",
-      //   },
-      // },
       productId: {
         type: DataTypes.STRING,
         references: {
