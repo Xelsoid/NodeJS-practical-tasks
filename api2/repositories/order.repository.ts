@@ -1,5 +1,22 @@
-import { order } from "../data/order";
+import {Cart, CartItem, Product, User, Order, Payment, Delivery} from "../dbinit";
 
-export const findOrderById = (currentUserId: string) => {
-  return order.find(({ userId }) => userId === currentUserId) || null;
-};
+export const findOrderById = async (currentUserId: string) => await User.findByPk(currentUserId, {
+  include: [{
+    model: Order,
+    include: [{
+      model: Cart,
+      include: [{
+        model: CartItem,
+        include:[{
+          model: Product
+        }]
+      }]
+    },
+    {
+      model: Payment,
+    },
+    {
+      model: Delivery,
+    }]
+  }]
+});

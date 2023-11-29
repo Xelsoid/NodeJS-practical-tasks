@@ -1,38 +1,45 @@
-import { cart } from "../data/cart";
-import { CartEntity } from "../schemas/cart.entity";
+import {Cart, CartItem, Product, User} from "../dbinit";
 
-export const findCartById = (currentUserId: string): CartEntity | null =>
-  cart.find(({ userId }) => userId === currentUserId) || null;
+const getActiveCart = (carts) => carts?.carts?.find(({isDeleted}) => !isDeleted);
 
-export const findProductById = (currentUserId: string, productId: string) => {
-  const currentCart = findCartById(currentUserId);
-  if (!currentCart?.items) {
-    return null;
+export const findCartById = async (
+  currentUserId: string,
+  isDeleted = false,
+) => {
+  const cart = await Cart.findOne({
+    where: { userId: currentUserId, isDeleted },
+  });
+  return cart;
+};
+
+export const deleteCart = async (currentUserId: string) => {
+  const currentCart = await Cart.findOne({
+    where: { userId: currentUserId, isDeleted: false },
+  });
+  if (currentCart) {
+    currentCart.isDeleted = true;
+    await currentCart.save();
   }
-  const currentProduct = currentCart.items.find(
-    ({ product }) => product.id === productId,
-  );
-  return currentProduct || null;
-};
-
-export const updateProduct = (currentUserId, existingProduct) => {
-  const currentCart = findCartById(currentUserId);
-
-  const productIndex = currentCart.items.findIndex(
-    ({ product }) => product.id === existingProduct.product.id,
-  );
-  currentCart.items.splice(productIndex, 1, existingProduct);
+  await currentCart.reload();
   return currentCart;
 };
 
-export const addProduct = (currentUserId, product) => {
-  const currentCart = findCartById(currentUserId);
-  currentCart.items.push(product);
-  return currentCart;
+export const findCartsInDB = async (currentUserId: string) => {
+  const userCarts = await User.findByPk(currentUserId, {
+    include: [{
+      model: Cart,
+      include: [{
+        model: CartItem,
+        include:[{
+          model: Product
+        }]
+      }]
+    }]
+  });
+  return userCarts;
 };
 
-export const deleteCart = (currentUserId) => {
-  const currentCart = findCartById(currentUserId);
-  currentCart.isDeleted = true;
-  return currentCart;
+export const findActiveCart = async (currentUserId: string) => {
+  const userCarts = await findCartsInDB(currentUserId);
+  return getActiveCart(userCarts);
 };

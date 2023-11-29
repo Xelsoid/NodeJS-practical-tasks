@@ -1,6 +1,11 @@
-import { products } from "../data/products";
+import { Product} from "../dbinit";
 
-export const getAllProducts = () => products;
+export const getAllProducts = async () => {
+  const products = await Product.findAll();
+  return products;
+};
 
-export const getProductById = (productId: string) =>
-  products.find(({ id }) => id === productId);
+export const getProductById = async (productId: string) => {
+  const product = await Product.findByPk(productId);
+  return product;
+};

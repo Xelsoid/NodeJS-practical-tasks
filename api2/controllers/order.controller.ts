@@ -6,11 +6,11 @@ export const placeOrderById = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const order = createNewOrder(req.header("x-user-id"));
+  const order = await createNewOrder(req.header("x-user-id"));
   if (!order) {
     throw new Error("Internal Server error");
   }
-
+  console.log(order);
   res.status(201).send({
     data: { order },
   });

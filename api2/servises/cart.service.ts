@@ -1,49 +1,49 @@
-import { CartEntity, CartItemEntity } from "../schemas/cart.entity";
-import {
-  findCartById,
-  findProductById,
-  addProduct,
-  updateProduct,
-  deleteCart,
-} from "../repositories/cart.repository";
+import { randomUUID } from "crypto";
+import { CartItemEntity } from "../schemas/cart.entity";
+import { deleteCart, findActiveCart } from "../repositories/cart.repository";
+import { getProductById } from "../repositories/product.repository";
 
-export const returnUserCartData = (currentUserId: string) => {
-  const currentCart = findCartById(currentUserId);
-  if (!currentCart) return null;
+const getCartItem = (cartItems, productId, cartId) => cartItems.find(({productId: pId, cartId: cId}) =>
+  productId === pId && cartId === cId
+);
 
-  const cart = { ...currentCart };
-  delete cart?.userId;
-  delete cart?.isDeleted;
-  return cart;
+export const calcCartTotal = (cartItems: CartItemEntity[] = []) =>
+  cartItems?.reduce((acc, cartItem) => acc + cartItem.product.price * cartItem.count, 0);
+
+
+export const getUserCartData = async (currentUserId: string) => {
+  const currentCart = await findActiveCart(currentUserId);
+  return currentCart;
 };
 
-export const returnCartTotal = (items: CartItemEntity[]) =>
-  items.reduce((acc, item) => acc + item.product.price * item.count, 0);
 
-export const updateUserCart = (currentUserId: string, product) => {
-  const { productId, count, title, description, price } = product;
-  const existingProduct = findProductById(currentUserId, productId);
+export const updateUserCart = async (
+  currentUserId: string,
+  product: { productId: string; count: number },
+) => {
+  const {productId, count} = product;
+  const isProductExists = await getProductById(productId);
+  const activeCart = await findActiveCart(currentUserId);
 
-  if (existingProduct && count) {
-    existingProduct.count = count;
-    return updateProduct(currentUserId, existingProduct);
+  if(!activeCart || !isProductExists) return null;
+
+  const cartItems = await activeCart.getCartItems();
+  const currentCartItem = getCartItem(cartItems, productId, activeCart.id);
+
+  if(currentCartItem) {
+    currentCartItem.count = count;
+    await currentCartItem.save();
+  } else {
+    await activeCart.createCartItem({
+      id: randomUUID(),
+      cartId: activeCart.id,
+      productId,
+      count
+    });
   }
 
-  if (!existingProduct && title && description && price && count && productId) {
-    // create new product
-    const currentProduct = {
-      product: {
-        id: productId,
-        title,
-        description,
-        price,
-      },
-      count,
-    };
-    return addProduct(currentUserId, currentProduct);
-  }
-
-  return null;
+  await activeCart.reload();
+  return activeCart;
 };
 
 export const deleteUserCart = (currentUserId: string) =>
