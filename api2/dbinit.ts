@@ -94,4 +94,4 @@ const syncDB = async () => {
 
 syncDB();
 
-export { sequelize, checkDataBaseConnection, User, Cart, CartItem, Product };
+export { sequelize, checkDataBaseConnection, User, Cart, CartItem, Product, Order, Payment, Delivery };
